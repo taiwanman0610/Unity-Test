@@ -19,6 +19,8 @@ namespace Ui{
 
         private void SetHex()
         {
+            //hex conversion code referenced from https://stackoverflow.com/a/1139975
+
             string HexString = redValue.ToString("X2") + greenValue.ToString("X2") + blueValue.ToString("X2");
             hexCode.GetComponentInChildren<InputField>().text = HexString;
             SetBackgroundColor();
@@ -26,15 +28,21 @@ namespace Ui{
 
         private void SetBackgroundColor()
         {
+            //color assignment code referenced from ColorPanel.cs and Unity documentation
+
             Camera.main.backgroundColor = new Vector4(redValue / 255f, greenValue / 255f,
                                                       blueValue / 255f, alphaValue / 100f);
             //Debug.Log(Camera.main.backgroundColor);
+            red.GetComponentInChildren<SliderColor>().UpdateColor();
+            green.GetComponentInChildren<SliderColor>().UpdateColor();
+            blue.GetComponentInChildren<SliderColor>().UpdateColor();
         }
 
         private void Awake()
         {
             SetAllValues();
         }
+
         private void SetAllValues()
         {
             red.GetComponentInChildren<Slider>().value = redValue;
@@ -62,8 +70,8 @@ namespace Ui{
         public void RedField()
         {
             if (red.GetComponentInChildren<InputField>().text == "") red.GetComponentInChildren<InputField>().text = "0";
-            redValue = int.Parse(red.GetComponentInChildren<InputField>().text);
-            if (redValue > 255)
+            redValue = int.Parse(red.GetComponentInChildren<InputField>().text);    //string to int parse referenced from 
+            if (redValue > 255)                                                     //Microsoft C# programming guide
             {
                 redValue = 255;
                 red.GetComponentInChildren<InputField>().text = "255";
@@ -163,6 +171,8 @@ namespace Ui{
             {
                 for (int i = 0; i < 6; i++)
                 {
+                    //valid hex character check referenced from https://stackoverflow.com/a/223854
+
                     if (!(input[i] >= '0' && input[i] <= '9' ||
                         input[i] >= 'a' && input[i] <= 'f' ||
                         input[i] >= 'A' && input[i] <= 'F'))
@@ -174,6 +184,9 @@ namespace Ui{
                 string red = input.Substring(0, 2);
                 string green = input.Substring(2, 2);
                 string blue = input.Substring(4, 2);
+
+                //hex conversion code referenced from https://stackoverflow.com/a/1139975
+
                 redValue = Convert.ToInt32(red, 16);
                 greenValue = Convert.ToInt32(green, 16);
                 blueValue = Convert.ToInt32(blue, 16);
