@@ -48,6 +48,7 @@ public class SliderColor : MonoBehaviour
         //RectTransform operations referenced from https://forum.unity.com/threads/modify-the-width-and-height-of-recttransform.270993/
         GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
         mTexture = new Texture2D(width, 1);
+        UpdateColor();
     }
 
     public void UpdateColor()
