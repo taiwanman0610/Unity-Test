@@ -14,6 +14,7 @@ namespace Ui
         private Vector2 StartTransformPosition { get; set; }
         private int? DraggingPointerId { get; set; }
         private bool IsDragging => DraggingPointerId.HasValue;
+        private bool edgeClick = false;
 
         private void OnValidate()
         {
@@ -27,6 +28,15 @@ namespace Ui
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            Rect rect = m_RectTransform.rect;
+            if ((rect.yMax - (eventData.pressPosition.y - RectTransform.transform.position.y) <= 10) ||
+                (rect.xMax - (eventData.pressPosition.x - RectTransform.transform.position.x) <= 10) ||
+                ((eventData.pressPosition.x - RectTransform.transform.position.x) - rect.xMin <= 10))
+            {
+                edgeClick = true;
+                GetComponentInParent<ResizePanel>().CheckEdge(eventData.pressPosition);
+                return;
+            }
             if (IsDragging)
             {
                 return;
@@ -39,6 +49,11 @@ namespace Ui
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (edgeClick)
+            {
+                GetComponentInParent<ResizePanel>().Resize(eventData.position);
+                return;
+            }
             if (!IsDragging)
             {
                 return;
@@ -62,6 +77,12 @@ namespace Ui
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (edgeClick)
+            {
+                GetComponentInParent<ResizePanel>().EndResize();
+                edgeClick = false;
+                return;
+            }
             if (!IsDragging || DraggingPointerId.GetValueOrDefault() == eventData.pointerId)
             {
                 return;
