@@ -14,10 +14,9 @@ namespace Ui
 
         private RectTransform RectTransform;
         private Rect rect;
-        private Vector2 lastPosition;
         private bool leftClick = false, rightClick = false, topClick = false, botClick = false;
-        private float extraX = 0, extraY = 0;
         private float rightBound, leftBound, topBound, botBound;
+        private float minWidth = 60, minHeight = 90;
 
         private void Awake()
         {
@@ -34,7 +33,6 @@ namespace Ui
         public void CheckEdge(Vector2 pressPosition)
         {
             rect = RectTransform.rect;
-            lastPosition = pressPosition;
             if (rect.xMax - (pressPosition.x - RectTransform.transform.position.x) <= 10)
             {
                 rightClick = true;
@@ -71,113 +69,69 @@ namespace Ui
 
         public void Resize(Vector2 mousePosition)
         {
-            Vector2 offset = lastPosition - mousePosition;
             if (rightClick)
             {
-                if (extraX < 0)
+                if (mousePosition.x > rightBound)
                 {
-                    extraX -= offset.x;
-                    if (extraX >= 0)
-                    {
-                        offset.x = -extraX;
-                        extraX = 0;
-                    }
+                    RectTransform.sizeDelta = new Vector2(rightBound - RectTransform.position.x, RectTransform.sizeDelta.y);
                 }
-                if (extraX == 0)
+                else if (mousePosition.x < RectTransform.position.x + minWidth)
                 {
-                    if (mousePosition.x > rightBound)
-                    {
-                        RectTransform.sizeDelta = new Vector2(rightBound - RectTransform.position.x, RectTransform.sizeDelta.y);
-                    }
-                    else
-                    {
-                        RectTransform.sizeDelta = new Vector2(mousePosition.x - RectTransform.position.x,
-                                                          RectTransform.sizeDelta.y);
-                    }
+                    RectTransform.sizeDelta = new Vector2(minWidth, RectTransform.sizeDelta.y);
+                }
+                else
+                {
+                    RectTransform.sizeDelta = new Vector2(mousePosition.x - RectTransform.position.x, RectTransform.sizeDelta.y);
                 }
             }
             else if (leftClick)
             {
-                if (extraX < 0)
+                if (mousePosition.x < leftBound)
                 {
-                    extraX += offset.x;
-                    if (extraX >= 0)
-                    {
-                        offset.x = extraX;
-                        extraX = 0;
-                    }
+                    RectTransform.sizeDelta = new Vector2(RectTransform.position.x - leftBound, RectTransform.sizeDelta.y);
                 }
-                if (extraX == 0)
+                else if (mousePosition.x > RectTransform.position.x - minWidth)
                 {
-                    if (mousePosition.x < leftBound)
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.position.x - leftBound, RectTransform.sizeDelta.y);
-                    }
-                    else
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.position.x - mousePosition.x,
-                                                          RectTransform.sizeDelta.y);
-                    }
+                    RectTransform.sizeDelta = new Vector2(minWidth, RectTransform.sizeDelta.y);
+                }
+                else
+                {
+                    RectTransform.sizeDelta = new Vector2(RectTransform.position.x - mousePosition.x,
+                                                      RectTransform.sizeDelta.y);
                 }
             }
             if (topClick)
             {
-                if (extraY < 0)
+                if (mousePosition.y > topBound)
                 {
-                    extraY -= offset.y;
-                    if (extraY >= 0)
-                    {
-                        offset.y = -extraY;
-                        extraY = 0;
-                    }
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, topBound - RectTransform.position.y);
                 }
-                if (extraY == 0) {
-                    if (mousePosition.y > topBound)
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, topBound - RectTransform.position.y);
-                    }
-                    else
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
-                                                              mousePosition.y - RectTransform.position.y);
-                    }
+                else if (mousePosition.y < RectTransform.position.y + minHeight)
+                {
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, minHeight);
+                }
+                else
+                {
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
+                                                          mousePosition.y - RectTransform.position.y);
                 }
             }
             else if (botClick)
             {
-                if (extraY < 0)
+                if (mousePosition.y < botBound)
                 {
-                    extraY += offset.y;
-                    if (extraY >= 0)
-                    {
-                        offset.y = extraY;
-                        extraY = 0;
-                    }
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, RectTransform.position.y - botBound);
                 }
-                if (extraY == 0)
+                else if (mousePosition.y > RectTransform.position.y - minHeight)
                 {
-                    if (mousePosition.y < botBound)
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, RectTransform.position.y - botBound);
-                    }
-                    else
-                    {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
-                                                              RectTransform.position.y - mousePosition.y);
-                    }
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, minHeight);
+                }
+                else
+                {
+                    RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
+                                                          RectTransform.position.y - mousePosition.y);
                 }
             }
-            if (RectTransform.sizeDelta.x < 60)
-            {
-                extraX -= (60 - RectTransform.sizeDelta.x);
-                RectTransform.sizeDelta = new Vector2(60, RectTransform.sizeDelta.y);
-            }
-            if (RectTransform.sizeDelta.y < 90)
-            {
-                extraY -= (90 - RectTransform.sizeDelta.y);
-                RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, 90);
-            }
-            lastPosition = mousePosition;
         }
 
         public void EndResize()
@@ -211,8 +165,6 @@ namespace Ui
                                                      RectTransform.position.z);
             }
             RectTransform.pivot = new Vector2(0.5f,0.5f);
-            extraX = 0;
-            extraY = 0;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
