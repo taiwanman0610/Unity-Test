@@ -71,7 +71,6 @@ namespace Ui
 
         public void Resize(Vector2 mousePosition)
         {
-            rect = RectTransform.rect;
             Vector2 offset = lastPosition - mousePosition;
             if (rightClick)
             {
@@ -92,7 +91,7 @@ namespace Ui
                     }
                     else
                     {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x - offset.x,
+                        RectTransform.sizeDelta = new Vector2(mousePosition.x - RectTransform.position.x,
                                                           RectTransform.sizeDelta.y);
                     }
                 }
@@ -116,7 +115,7 @@ namespace Ui
                     }
                     else
                     {
-                        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x + offset.x,
+                        RectTransform.sizeDelta = new Vector2(RectTransform.position.x - mousePosition.x,
                                                           RectTransform.sizeDelta.y);
                     }
                 }
@@ -140,7 +139,7 @@ namespace Ui
                     else
                     {
                         RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
-                                                          RectTransform.sizeDelta.y - offset.y);
+                                                              mousePosition.y - RectTransform.position.y);
                     }
                 }
             }
@@ -164,7 +163,7 @@ namespace Ui
                     else
                     {
                         RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x,
-                                                          RectTransform.sizeDelta.y + offset.y);
+                                                              RectTransform.position.y - mousePosition.y);
                     }
                 }
             }
