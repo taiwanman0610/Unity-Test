@@ -28,6 +28,7 @@ namespace Ui
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            //checks if header click is on edge on window. If click is on edge, execute window resizing instead of moving
             Rect rect = m_RectTransform.rect;
             if ((rect.yMax - (eventData.pressPosition.y - RectTransform.transform.position.y) <= 10) ||
                 (rect.xMax - (eventData.pressPosition.x - RectTransform.transform.position.x) <= 10) ||

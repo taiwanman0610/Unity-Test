@@ -16,12 +16,19 @@ namespace Ui
 
         private RectTransform RectTransform;
         private Rect rect;
+
+        //flags for edge clicks
         private bool leftClick = false, rightClick = false, topClick = false, botClick = false;
+
+        //index of boundary at each edge to check for when resizing
         private float rightBound, leftBound, topBound, botBound;
+
+        //minimum size of color panel
         private float minWidth = 60, minHeight = 90;
 
         private void Awake()
         {
+            //Calculate boundary in UI space, assuming boundary does not change during execution
             RectTransform = GetComponent<RectTransform>();
             rect = RectTransform.rect;
             RectTransform boundary = (RectTransform)RectTransform.parent;
@@ -34,6 +41,7 @@ namespace Ui
 
         public void CheckEdge(Vector2 pressPosition)
         {
+            //checks for click/drag within a certain range of pixels from edge of window as well as which side(s) of window
             rect = RectTransform.rect;
             if (rect.xMax - (pressPosition.x - RectTransform.transform.position.x) <= 10)
             {
@@ -42,6 +50,7 @@ namespace Ui
                                                      RectTransform.position.y, 
                                                      RectTransform.position.z);
                 RectTransform.pivot = new Vector2(0, RectTransform.pivot.y);
+                //adjust pivot so that resize follows mouse pointer, then shift position so that color panel does not move with new pivot
             }
             else if ((pressPosition.x - RectTransform.transform.position.x) - rect.xMin <= 10)
             {
@@ -73,11 +82,11 @@ namespace Ui
         {
             if (rightClick)
             {
-                if (mousePosition.x > rightBound)
+                if (mousePosition.x > rightBound)                                                   //if trying to resize over boundary
                 {
                     RectTransform.sizeDelta = new Vector2(rightBound - RectTransform.position.x, RectTransform.sizeDelta.y);
                 }
-                else if (mousePosition.x < RectTransform.position.x + minWidth)
+                else if (mousePosition.x < RectTransform.position.x + minWidth)                     //if trying to resize below minimum size
                 {
                     RectTransform.sizeDelta = new Vector2(minWidth, RectTransform.sizeDelta.y);
                 }
@@ -138,6 +147,7 @@ namespace Ui
 
         public void EndResize()
         {
+            //reset pivot, readjusting position accordingly
             if (rightClick)
             {
                 rightClick = false;

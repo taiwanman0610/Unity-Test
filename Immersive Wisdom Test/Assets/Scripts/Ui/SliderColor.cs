@@ -23,6 +23,8 @@ public class SliderColor : MonoBehaviour
 
     private void InitTextures()
     {
+        //creates 2x1 texture to set as slider background. When assigned to raw image, if the texture doesn't cover the image area,
+        //Unity will create a gradient effect that interpolates between the two assigned colors
         if (RTexture == null)
         {
             RTexture = new Texture2D(2, 1);
@@ -49,6 +51,7 @@ public class SliderColor : MonoBehaviour
 
         if (ThisColor == mSliderColor.Red && (RTexture.GetPixel(0,0).g != bgColor.g || RTexture.GetPixel(0, 0).b != bgColor.b))
         {
+            //0 red value at leftmost point of slider, 1 red value at rightmost, keeping the other two color values the same
             RTexture.SetPixel(0, 0, new Color(0, bgColor.g, bgColor.b));
             RTexture.SetPixel(1, 0, new Color(1, bgColor.g, bgColor.b));
             RTexture.Apply();

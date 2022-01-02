@@ -62,6 +62,7 @@ namespace Ui{
 
         public void RedSlider()
         {
+            //change slider value to match change in input field
             redValue = (int)red.GetComponentInChildren<Slider>().value;
             red.GetComponentInChildren<TMPro.TMP_InputField>().text = redValue.ToString();
             SetHex();
@@ -69,9 +70,11 @@ namespace Ui{
 
         public void RedField()
         {
+            //change input field value to match slider
             if (red.GetComponentInChildren<TMPro.TMP_InputField>().text == "") red.GetComponentInChildren<TMPro.TMP_InputField>().text = "0";
             redValue = int.Parse(red.GetComponentInChildren<TMPro.TMP_InputField>().text);    //string to int parse referenced from 
-            if (redValue > 255)                                                     //Microsoft C# programming guide
+                                                                                              //Microsoft C# programming guide
+            if (redValue > 255)     //handles invalid inputs, clamps to max or min
             {
                 redValue = 255;
                 red.GetComponentInChildren<TMPro.TMP_InputField>().text = "255";
@@ -163,7 +166,7 @@ namespace Ui{
         public void HexField()
         {
             string input = hexCode.GetComponentInChildren<TMPro.TMP_InputField>().text;
-            if (input.Length < 6)
+            if (input.Length < 6)       //input does not have enough characters
             {
                 SetHex();
             }
@@ -175,7 +178,7 @@ namespace Ui{
 
                     if (!(input[i] >= '0' && input[i] <= '9' ||
                         input[i] >= 'a' && input[i] <= 'f' ||
-                        input[i] >= 'A' && input[i] <= 'F'))
+                        input[i] >= 'A' && input[i] <= 'F'))    //input is not valid hex character
                     {
                         SetHex();
                         return;
