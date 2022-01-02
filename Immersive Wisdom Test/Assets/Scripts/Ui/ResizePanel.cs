@@ -12,6 +12,8 @@ namespace Ui
         //Drag handler members/methods and RectTransform members/methods 
         //referenced from DragHandle.cs and Unity Documentation
 
+        //RectTransform operations referenced from https://forum.unity.com/threads/modify-the-width-and-height-of-recttransform.270993/
+
         private RectTransform RectTransform;
         private Rect rect;
         private bool leftClick = false, rightClick = false, topClick = false, botClick = false;

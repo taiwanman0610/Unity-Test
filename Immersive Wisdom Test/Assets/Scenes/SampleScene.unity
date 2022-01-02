@@ -2731,9 +2731,9 @@ MonoBehaviour:
   m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
-    x: 0
+    x: 0.25
     y: 0
-    width: 1
+    width: 0.5
     height: 1
 --- !u!114 &1028324162
 MonoBehaviour:
@@ -2817,9 +2817,9 @@ MonoBehaviour:
   m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
-    x: 0
+    x: 0.25
     y: 0
-    width: 1
+    width: 0.5
     height: 1
 --- !u!114 &1134690462
 MonoBehaviour:
@@ -3552,9 +3552,9 @@ MonoBehaviour:
   m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
-    x: 0
+    x: 0.25
     y: 0
-    width: 1
+    width: 0.5
     height: 1
 --- !u!114 &1498573112
 MonoBehaviour:
